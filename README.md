@@ -1,27 +1,53 @@
-# Инструкция по развертыванию
+# Инструкция по развертыванию seatable в redos
 
-## Разворачивание в docker-compose для разработки
-  1. Открыть папку проекта в терминале  
-    - ввести команды по очереди:
-      ```
-      docker-compose up -d --build
-      ```  
-      ```
-      docker-compose exec web python3 manage.py collectstatic --no-input --clear
-      ```
-
-## Разворачивание в docker-compose для деплоя 
+## установка и настройка docker-compose 
 <details><summary>Команды</summary>
 <p>
 
+  1. Установка docker-compose
+  ```
+    dnf install docker docker-compose
+  ```  
+  2. Добавление в автозапуск
+  ```
+    systemctl enable docker
+  ```
+  3. Запуск docker без root прав
+  ```
+    groupadd docker
+  ```
+  ```
+    usermod -aG docker $USER
+  ```
+
+</p>
+</details>
+
+## Запуск seatable
+<details><summary>Команды</summary>
+<p>
+
+1. Открыть файл .env 
+   - MYSQL_ROOT_PASSWORD=  # Пароль для базы данных
+   - MYSQL_LOG_CONSOLE=true
+   - DB_HOST=db #оставить. db - имя сервиса с базой данных
+   - DB_ROOT_PASSWD=  # Пароль для базы данных, должен совпадать с MYSQL_ROOT_PASSWORD
+   - SEATABLE_SERVER_LETSENCRYPT=False # сертификат SSL, True при наличии сертификата и включения соединени HTTPS
+   - SEATABLE_SERVER_HOSTNAME= #имя хоста
+   - TIME_ZONE=Asia/Yekaterinburg #часовой пояс
+2. Запуск docker-compose скрипта. Запускать из под пользователя без root и админских прав
 ```
-  docker-compose -f docker-compose.prod.yml down -v
+  docker-compose up -d
 ```
+3. Запуск seatable.
 ```
-  docker-compose -f docker-compose.prod.yml up -d --build
+  docker exec -d seatable /shared/seatable/scripts/seatable.sh start
 ```
+   - docker exec - обращение к контейнеру
+   - docker exec имя_контейнера команда - синтаксис
+4. Создать суперпользователя
 ```
-  docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear
+  docker exec -it seatable /shared/seatable/scripts/seatable.sh superuser
 ```
 
 </p>
