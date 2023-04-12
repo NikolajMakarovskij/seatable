@@ -1,0 +1,49 @@
+version: '3.9'
+services:
+  db:
+    image: mariadb:10.5
+    container_name: seatable-mysql
+    restart: always 
+    env_file:
+      - ./.env
+    volumes:
+      - /opt/seatable/mysql-data:/var/lib/mysql  # Requested, specifies the path to MySQL data persistent store.
+    networks:
+      - seatable-net
+
+  memcached:
+    image: memcached:1.5.6
+    container_name: seatable-memcached
+    restart: always
+    entrypoint: memcached -m 256
+    networks:
+      - seatable-net
+
+  redis:
+    image: redis:5.0.7
+    container_name: seatable-redis
+    restart: always
+    networks:
+      - seatable-net
+
+  seatable:
+    image: seatable/seatable-developer:latest
+    container_name: seatable
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"  # If https is enabled, cancel the comment.
+    volumes:
+      - /opt/seatable/seatable-data:/shared  # Requested, specifies the path to Seafile data persistent store.
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+      - memcached
+      - redis
+    networks:
+      - seatable-net
+
+networks:
+  seatable-net:
+
