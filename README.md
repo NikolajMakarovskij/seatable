@@ -19,7 +19,7 @@
   ```
     usermod -aG docker $USER
   ```
-  4. Установка Portainer для удаленного управления контейнерами
+  4. Установка Portainer для удаленного управления контейнерами. Поменять порты при развертывании
   ```
     docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
   ```
@@ -65,3 +65,17 @@
 
 </p>
 </details>
+
+## Ограничения
+1. Максимум строк 100 000, при достежении лимита только режим чтения
+2. при достижении 150 000 строк база упадет
+3. ограничение строк в одном запросе 10 000, ограничения можно изменять
+  [ссылка](https://manual.seatable.io/config/dtable_db_conf/)
+
+## python scripts
+
+  Требуется отдельный хост 2 CPU, 4 GB RAM, предоставляют в docker образах
+
+## seafile
+
+  облачное файловое хранилище, есть на ubuntu, fedora, debian
