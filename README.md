@@ -62,6 +62,14 @@
 ```
   docker exec -it seatable /shared/seatable/scripts/seatable.sh superuser
 ```
+8. Запуск бэкапов в crontab
+```
+  crontab -e
+```
+  Бэкап каждую пятницу в 23:00
+```
+  MAILTO=email 00 23 * * 5 docker exec -it seatable-mysql mysqldump -u root -p adf59RH96jh --opt ccnet_db > ccnet_db.sql && docker exec -it seatable-mysql mysqldump -u root -p adf59RH96jh --opt seafile_db > seafile_db.sql && docker exec -it seatable-mysql mysqldump -u root -p adf59RH96jh --opt dtable_db > dtable_db.sql
+```
 
 </p>
 </details>
