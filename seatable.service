@@ -5,8 +5,6 @@ StartLimitIntervalSec=60
 [Service]
 Type=simple 
 User=$USER
-Restart=always
-RestartSec=15
 ExecStart=-/bin/bash -c "docker exec -d seatable /shared/seatable/scripts/seatable.sh start"
 
 [Install]
