@@ -66,9 +66,9 @@
 ```
   crontab -e
 ```
-  Бэкап каждую пятницу в 23:00
+  Бэкап вторник, четверг в 23:00
 ```
-  MAILTO=email 00 23 * * 5 docker exec -it seatable-mysql mysqldump -u root -p adf59RH96jh --opt ccnet_db > ccnet_db.sql && docker exec -it seatable-mysql mysqldump -u root -p adf59RH96jh --opt seafile_db > seafile_db.sql && docker exec -it seatable-mysql mysqldump -u root -p adf59RH96jh --opt dtable_db > dtable_db.sql
+  00 23 * * 2,4 docker exec seatable-mysql mysqldump -uroot -padf59RH96jh --opt ccnet_db > backup/ccnet_db_$(date +\%Y-\%m-\%d).sql && docker exec seatable-mysql mysqldump -uroot -padf59RH96jh --opt seafile_db > backup/seafile_db_$(date +\%Y-\%m-\%d).sql && docker exec seatable-mysql mysqldump -uroot -padf59RH96jh --opt dtable_db > backup/dtable_db_$(date +\%Y-\%m-\%d).sql
 ```
 
 </p>
