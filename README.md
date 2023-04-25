@@ -68,6 +68,7 @@
 ```
   Бэкап вторник, четверг в 23:00
 ```
+  00 00 * * 3,5 find /home/tables/backup -type f -mtime +30 -exec rm -f {} \;
   00 23 * * 2,4 docker exec seatable-mysql mysqldump -uroot -padf59RH96jh --opt ccnet_db > backup/ccnet_db_$(date +\%Y-\%m-\%d).sql && docker exec seatable-mysql mysqldump -uroot -padf59RH96jh --opt seafile_db > backup/seafile_db_$(date +\%Y-\%m-\%d).sql && docker exec seatable-mysql mysqldump -uroot -padf59RH96jh --opt dtable_db > backup/dtable_db_$(date +\%Y-\%m-\%d).sql
 ```
 
